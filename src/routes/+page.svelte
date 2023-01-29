@@ -10,7 +10,22 @@
 
     // formDefault must match the shape of the form to be rendered 
     // and also fill in the defaults or the prior form submission w/ validation errors
-    let formDefault: {[key: string]: string} = form?.formValue ? {...form?.formValue} : new ProfileFormData();
+    $: formDefault = setFormDefault(form?.formValue);
+    // $: console.log('formDefault ', formDefault);
+    // $: console.log('form.formValue changed ', form?.formValue);
+    // $: setFormDefault(form?.formValue);
+    
+    function setFormDefault(formValue) {
+        if(formValue) {
+            console.log('setFormDefault() from form.formValue');
+            console.log('formValue: ', formValue);
+            return formValue;
+        }
+        else {
+            console.log('setFormDefault() from new ProfileFormData()');
+            return new ProfileFormData();
+        }
+    }
 
     function toggleFormMode() {
         if(formMode === 'create') {
@@ -41,6 +56,15 @@
             <button on:click|preventDefault={toggleFormMode}>{formMode} [toggle]</button>
         </div>
 
+        {#if formMode === 'update'}
+			<input
+				type="hidden"
+				name="id"
+                value={formDefault.id}
+			/>
+            <div>id: {formDefault.id}</div>
+        {/if}
+
         <div>
 			<label for="fullname"> Full Name </label>
 			<input
@@ -48,7 +72,7 @@
 				name="fullname"
 				class=""
 				placeholder="Full Name"
-                value={formDefault.fullname}
+                bind:value={formDefault.fullname}
 			/>
             {#if form?.errors?.fullname}
             <span class="error-text">{form?.errors?.fullname}</span>
@@ -62,7 +86,7 @@
 				name="email"
 				class=""
 				placeholder="email"
-                value={formDefault.email}
+                bind:value={formDefault.email}
 			/>
             {#if form?.errors?.email}
             <span class="error-text">{form?.errors?.email}</span>
@@ -76,7 +100,7 @@
 				name="profile.address"
 				class=""
 				placeholder="Profile Address"
-                value={formDefault.profile.address || ''}
+                bind:value={formDefault.profile.address}
 			/>
             {#if form?.errors?.['profile.address']}
             <span class="error-text">{form?.errors['profile.address']}</span>
@@ -85,7 +109,7 @@
 
         <!-- dynamic section -->
         <h3>Contacts</h3>
-        {#if formDefault?.contacts?.length > 0 }
+        {#if formDefault?.contacts }
             {#each formDefault.contacts as c, idx}
                 <div>
                     <label for="contacts.{idx}.contacttype">contact type </label>
@@ -94,11 +118,12 @@
                         name="contacts.{idx}.contacttype"
                         class=""
                         placeholder="contact type"
-                        value={formDefault.contacts[idx]?.contacttype}
+                        bind:value={formDefault.contacts[idx].contacttype}
                     />
                     {#if form?.errors?.[`contacts[${idx}].contacttype`]}
                     <span class="error-text">{form?.errors?.[`contacts[${idx}].contacttype`]}</span>
                     {/if}
+                    <span>formDefault.contacts[{idx}]: {JSON.stringify(formDefault.contacts[idx])}</span>
                 </div>
                 <div>
                     <label for="contacts.{idx}.name">contact name </label>
@@ -107,7 +132,7 @@
                         name="contacts.{idx}.name"
                         class=""
                         placeholder="contact name"
-                        value={formDefault.contacts[idx]?.name}
+                        bind:value={formDefault.contacts[idx].name}
                     />
                     {#if form?.errors?.[`contacts[${idx}].name`]}
                     <span class="error-text">{form?.errors?.[`contacts[${idx}].name`]}</span>
@@ -127,6 +152,9 @@
 
 		<input type="submit" name="submit" value="submit button" />
 	</form>
+
+    <div>formDefault.contacts: {JSON.stringify(formDefault?.contacts)}</div>
+    <div>form?.formValue: {JSON.stringify(form?.formValue)}</div>
 </div>
 
 <!-- <div>

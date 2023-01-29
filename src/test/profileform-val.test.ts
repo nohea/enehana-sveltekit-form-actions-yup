@@ -25,20 +25,3 @@ describe.only('profile form validate', () => {
   })
 })
 
-function mockProfileData() : ProfileFormData {
-  const pd = new ProfileFormData({
-    id: '456',
-    fullname: 'Mock existing name',
-    profile: {
-      address: 'out there',
-      gender: undefined,
-    },
-    contacts: [
-      {email: 'ked@example.com', name: 'K Ed', contacttype: 'regular',},
-      {email: 'noone@example.com', name: 'No One', contacttype: '',},
-    ]
-  });
-
-  return pd;
-}
-
