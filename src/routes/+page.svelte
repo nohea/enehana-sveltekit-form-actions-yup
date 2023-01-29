@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from "$app/forms";
 	import type { ActionData, PageData } from "./$types";
 	import { ProfileFormData } from "./ProfileFormData";
 
@@ -34,7 +35,7 @@
         <div>form: {JSON.stringify(form)}</div>
     {/if}
 
-    <form method="POST" action="?/{formMode}">
+    <form method="POST" action="?/{formMode}" use:enhance>
 		<div>
 			<label for="fullname"> Mode '{formMode}'</label>
             <button on:click|preventDefault={toggleFormMode}>{formMode} [toggle]</button>
