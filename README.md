@@ -1,22 +1,12 @@
-# create-svelte
+# enehana-sveltekit-form-actions-yup
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+SvelteKit Form Actions bound to TypeScript class + Validation (yup)
 
-## Creating a project
+## running
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+git clone from github
 
 ## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
 ```bash
 npm run dev
@@ -35,4 +25,30 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+# notes
+
+![logical design diagram](static/SvelteKit-Form-Actions-bound-to-TypeScript-class-Validation-yup.png?raw=true)
+
+
+## SvelteKit page (Profile Form create/update)
+
++page.svelte
+
+- formDefault is the model for rendering the html form
+- The model could be a blank default, a redisplayed for from a prior failed submit, or loaded from a data store (update)
+- SvelteKit Form Actions are used, and support use:enhance
+- Errors display alongside form fields
+- Dynamic arrays are supported
+
++page.server.ts (Form Actions)
+
+- unflatten(formData)
+- validate(formValue)
+- return insert|update|error
+- errors contain key/error message
+- return formValue to redisplay if needed
+
+ProfileFormData.ts (models form render)
+
+ProfileFormDataSchema.ts (yup)
+
