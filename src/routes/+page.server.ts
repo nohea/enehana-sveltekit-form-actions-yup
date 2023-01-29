@@ -107,17 +107,20 @@ function formDataToFormValue(fd: FormData) {
   }
 
   let formValue = unflatten(formMap);
+  console.log('unflatten(formMap): ', formValue);
 
   // contacts array should be defined empty [] if no inputs
-  // if(formValue.contacts === undefined) {
-  //   console.log('formValue.contacts === undefined');
-  //   formValue.contacts = [];
-  // }
+  if(formValue.contacts === undefined) {
+    console.log('formValue.contacts === undefined');
+    formValue.contacts = [];
+  }
 
   // using the TS class will ensure formValue.contacts = [];
-  formValue = new ProfileFormData({...formValue});
+  // formValue = new ProfileFormData({...formValue});
+  // Error: Data returned from action inside / is not serializable: Cannot stringify arbitrary non-POJOs (data..formValue)
+  // can't use due to non-POJO
+  // formValue = devalue.stringify(formValue);
 
-  console.log('unflatten(formMap): ', formValue);
   return formValue;
 }
 
