@@ -11,9 +11,9 @@
     // formDefault must match the shape of the form to be rendered 
     // and also fill in the defaults or the prior form submission w/ validation errors
     $: formDefault = setFormDefault(form?.formValue);
+
     // $: console.log('formDefault ', formDefault);
     // $: console.log('form.formValue changed ', form?.formValue);
-    // $: setFormDefault(form?.formValue);
     
     function setFormDefault(formValue) {
         if(formValue) {
@@ -111,43 +111,52 @@
         <h3>Contacts</h3>
         {#if formDefault?.contacts }
             {#each formDefault.contacts as c, idx}
-                <div>
-                    <label for="contacts.{idx}.contacttype">contact type </label>
-                    <input
-                        type="text"
-                        name="contacts.{idx}.contacttype"
-                        class=""
-                        placeholder="contact type"
-                        bind:value={formDefault.contacts[idx].contacttype}
-                    />
-                    {#if form?.errors?.[`contacts[${idx}].contacttype`]}
-                    <span class="error-text">{form?.errors?.[`contacts[${idx}].contacttype`]}</span>
-                    {/if}
-                </div>
-                <div>
-                    <label for="contacts.{idx}.name">contact name </label>
-                    <input
-                        type="text"
-                        name="contacts.{idx}.name"
-                        class=""
-                        placeholder="contact name"
-                        bind:value={formDefault.contacts[idx].name}
-                    />
-                    {#if form?.errors?.[`contacts[${idx}].name`]}
-                    <span class="error-text">{form?.errors?.[`contacts[${idx}].name`]}</span>
-                    {/if}
+                <div class="contact-box">
+                    <div>
+                        <label for="contacts.{idx}.contacttype">contact type </label>
+                        <input
+                            type="text"
+                            name="contacts.{idx}.contacttype"
+                            class=""
+                            placeholder="contact type"
+                            bind:value={formDefault.contacts[idx].contacttype}
+                        />
+                        {#if form?.errors?.[`contacts[${idx}].contacttype`]}
+                        <span class="error-text">{form?.errors?.[`contacts[${idx}].contacttype`]}</span>
+                        {/if}
+                    </div>
+                    <div>
+                        <label for="contacts.{idx}.name">contact name </label>
+                        <input
+                            type="text"
+                            name="contacts.{idx}.name"
+                            class=""
+                            placeholder="contact name"
+                            bind:value={formDefault.contacts[idx].name}
+                        />
+                        {#if form?.errors?.[`contacts[${idx}].name`]}
+                        <span class="error-text">{form?.errors?.[`contacts[${idx}].name`]}</span>
+                        {/if}
+                    </div>
+                    <div>
+                        <a href="#" class="btn" on:click|preventDefault={() => {
+                            console.log('del ', idx);
+                            formDefault.contacts.splice(idx, 1);
+                            formDefault.contacts = formDefault.contacts;
+                            console.log('formDefault.contacts: ', formDefault.contacts);
+                        }}>[X]</a>
+                    </div>
                 </div>
             {/each}
-            <div>
-                <a href="#" class="btn" on:click|preventDefault={() => {
-                    formDefault.contacts = [
-                        ...formDefault.contacts
-                        , { contacttype: '', name: '', }
-                    ]
-                }}>add a contact</a>
-            </div>
-    
         {/if}
+        <div>
+            <a href="#" class="btn" on:click|preventDefault={() => {
+                console.log('add ');
+                console.log('formDefault.contacts = ', formDefault.contacts);
+                formDefault.contacts.push({ contacttype: '', name: '', });
+                formDefault.contacts = formDefault.contacts;
+            }}>add a contact</a>
+        </div>
 
 		<input type="submit" name="submit" value="submit button" />
 	</form>
@@ -155,15 +164,6 @@
     <div>formDefault.contacts: {JSON.stringify(formDefault?.contacts)}</div>
     <div>form?.formValue: {JSON.stringify(form?.formValue)}</div>
 </div>
-
-<!-- <div>
-	<b>$form: </b>
-	<pre>{JSON.stringify($form)}</pre>
-</div>
-<div>
-	<b>$errors: </b>
-	<pre>{JSON.stringify($errors)}</pre>
-</div> -->
 
 </main>
 
@@ -180,5 +180,9 @@
 
     .btn {
         border: 1px dotted blue;
+    }
+
+    .contact-box {
+        border: 1px dotted gray;
     }
 </style>

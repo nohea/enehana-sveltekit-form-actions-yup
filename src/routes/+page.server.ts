@@ -1,6 +1,7 @@
 import { mockProfileData } from '$lib/MockData';
 import type { Actions } from '@sveltejs/kit';
 import { flatten, unflatten } from 'flat';
+import { ProfileFormData } from './ProfileFormData';
 import { ProfileFormDataSchema } from './ProfileFormDataSchema';
 
 let profileFormDataSchema = ProfileFormDataSchema;
@@ -25,6 +26,8 @@ export const actions: Actions = {
     //formValue = formDataToProfileData(fd);
     formValue = formDataToFormValue(fd);
     console.log("formValue ", formValue);
+    console.log("flatten(formValue) ", flatten(formValue));
+    console.log("unflatten(formValue) ", unflatten(flatten(formValue)));
 
     // do create
     try {
@@ -57,7 +60,6 @@ export const actions: Actions = {
     fd.forEach((val, key) => {
       console.log(`${key}: `, val);
     });
-    //formValue = formDataToProfileData(fd);
     formValue = formDataToFormValue(fd);
     if(!formValue.id) {
       // nothing loaded, populate form from mock data load
@@ -104,11 +106,18 @@ function formDataToFormValue(fd: FormData) {
     formMap[key] = val || '';
   }
 
-  const formValue = unflatten(formMap);
+  let formValue = unflatten(formMap);
+
+  // contacts array should be defined empty [] if no inputs
+  // if(formValue.contacts === undefined) {
+  //   console.log('formValue.contacts === undefined');
+  //   formValue.contacts = [];
+  // }
+
+  // using the TS class will ensure formValue.contacts = [];
+  formValue = new ProfileFormData({...formValue});
+
   console.log('unflatten(formMap): ', formValue);
   return formValue;
-
-  // const pd = new ProfileFormData({...formMap});
-  // return pd;
 }
 
