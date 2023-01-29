@@ -123,7 +123,6 @@
                     {#if form?.errors?.[`contacts[${idx}].contacttype`]}
                     <span class="error-text">{form?.errors?.[`contacts[${idx}].contacttype`]}</span>
                     {/if}
-                    <span>formDefault.contacts[{idx}]: {JSON.stringify(formDefault.contacts[idx])}</span>
                 </div>
                 <div>
                     <label for="contacts.{idx}.name">contact name </label>

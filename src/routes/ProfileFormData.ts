@@ -11,10 +11,10 @@ export class ProfileFormData {
 
     public constructor(init?:Partial<ProfileFormData>) {
         this.contacts = [
-            {
-                contacttype: 'sometype',
-                name: 'joey schmoe',
-            },
+            // {
+            //     contacttype: 'sometype',
+            //     name: 'joey schmoe',
+            // },
         ];
         Object.assign(this, init);
     }
