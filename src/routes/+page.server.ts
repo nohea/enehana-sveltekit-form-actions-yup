@@ -1,7 +1,6 @@
 import { mockProfileData } from '$lib/MockData';
 import type { Actions } from '@sveltejs/kit';
 import { flatten, unflatten } from 'flat';
-import { ProfileFormData } from './ProfileFormData';
 import { ProfileFormDataSchema } from './ProfileFormDataSchema';
 
 let profileFormDataSchema = ProfileFormDataSchema;
@@ -53,12 +52,40 @@ export const actions: Actions = {
   },
   update: async ({ cookies, request }) => {
     console.log("action: update");
-    formValue = mockProfileData();
+    const fd = await request.formData();
+    console.log("fd.forEach() ");
+    fd.forEach((val, key) => {
+      console.log(`${key}: `, val);
+    });
+    //formValue = formDataToProfileData(fd);
+    formValue = formDataToFormValue(fd);
+    if(!formValue.id) {
+      // nothing loaded, populate form from mock data load
+      formValue = mockProfileData();
+    }
+
     console.log("formValue ", formValue);
     console.log("flatten(formValue) ", flatten(formValue));
     console.log("unflatten(formValue) ", unflatten(flatten(formValue)));
 
     // do update
+    try {
+      const result = await profileFormDataSchema.validate(formValue, validateOptions);
+    }
+    catch(error) {
+      console.log('error: ', error);
+      console.log('error.value: ', error.value);
+      const errors = error.inner.reduce((acc, err) => {
+        return { ...acc, [err.path]: err.message };
+      }, {});
+      console.log('errors: ', errors);
+
+      return {
+        status: 'error',
+        errors: errors,
+        formValue: {...error.value},
+      };
+    }
      
     return { 
       status: 'updated',
