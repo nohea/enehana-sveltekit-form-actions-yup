@@ -1,14 +1,26 @@
-import { ProfileFormData } from 'src/routes/ProfileFormData';
 import { ProfileFormDataSchema } from 'src/routes/ProfileFormDataSchema';
 import { assert, describe, it } from 'vitest'
-import type { string } from 'yup';
 
 // Only this suite (and others marked with only) are run
 describe.only('profile form validate', () => {
   it('test', async () => {
 
     // do create
-    const formValue = mockProfileData();
+    const formValue = {
+        id: '454',
+        fullname: 'Mock existing name',
+        profile: {
+          address: 'out there',
+          gender: undefined,
+        },
+        contacts: [
+          {email: 'ked@example.com', name: 'K Ed', contacttype: 'regular',},
+          {email: 'noone@example.com', name: 'No One', contacttype: '',},
+        ]
+      };
+    
+        
+
     const validateOptions = {
         abortEarly: false,
         strict: true,
