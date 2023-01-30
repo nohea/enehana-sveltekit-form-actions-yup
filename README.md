@@ -52,3 +52,10 @@ ProfileFormData.ts (models form render)
 
 ProfileFormDataSchema.ts (yup)
 
+# References
+
+This code is for the tech blog post:
+- [SvelteKit Form Actions bound to TypeScript class + Validation (yup) w/dynamic array](http://enehana.nohea.com/general/sveltekit-form-actions-bound-to-typescript-class-validation-yup-w-dynamic-array/)
+
+
+
