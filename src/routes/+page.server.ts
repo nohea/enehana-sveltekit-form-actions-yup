@@ -1,8 +1,10 @@
 import { mockProfileData } from '$lib/MockData';
 import type { Actions } from '@sveltejs/kit';
-import { flatten, unflatten } from 'flat';
 import { ProfileFormData } from './ProfileFormData';
 import { ProfileFormDataSchema } from './ProfileFormDataSchema';
+
+import pkg from 'flat';
+const { flatten, unflatten } = pkg;
 
 let profileFormDataSchema = ProfileFormDataSchema;
 const validateOptions = {
