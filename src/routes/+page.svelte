@@ -39,16 +39,11 @@
 
 <main>
 <div>
-	<h1>SvelteKit Form Actions bound to TypeScript class + Validation (yup)</h1>
+	<h1>SvelteKit Form Actions bound to TypeScript class + Validation (yup) w/dynamic array</h1>
 
 	<h4>Test Form</h4>
 
-    {#if data}
-        <div>data: {JSON.stringify(data)}</div>
-    {/if}
-    {#if form}
-        <div>form: {JSON.stringify(form)}</div>
-    {/if}
+    <div class="form-status">form status: {form?.status}</div>
 
     <form method="POST" action="?/{formMode}" use:enhance>
 		<div>
@@ -165,6 +160,13 @@
     <div>form?.formValue: {JSON.stringify(form?.formValue)}</div>
 </div>
 
+{#if data}
+<div>data: {JSON.stringify(data)}</div>
+{/if}
+{#if form}
+<div>form: {JSON.stringify(form)}</div>
+{/if}
+
 </main>
 
 <style>
@@ -184,5 +186,9 @@
 
     .contact-box {
         border: 1px dotted gray;
+    }
+
+    .form-status {
+        border: 1px dashed gray;
     }
 </style>
